@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset='utf-8'>
+ 		<title>vueDemo</title>
+ 		<script type="text/javascript" src='vue.js'></script>
+	</head>
+	<body>
+		<!--实例1-->
+		<div id='app'>{{age}} {{name}}</div>
+		<!--实例2-->
+		<div id="app1">
+  			<span v-bind:title="message">
+    			鼠标悬停几秒钟查看此处动态绑定的提示信息！
+  			</span>
+		</div>
+		<!--实例3条件与循环v-if:控制切换一个元素是否显示-->
+		<div id="app2">
+  			<p v-if="seen">现在你看到我了</p>
+		</div>
+		<!--实例4:v-for使用列表显示数组中的内容-->
+		<!--遍历列表todos中的字典的值-->
+		<div id="app3">
+  			<ol>
+    			<li v-for="todo in todos">
+      				{{ todo.text }}
+    			</li>
+  			</ol>
+		</div>
+		<!--实例5:事件监听使用v-on-->
+		<div id="app4">
+  			<p>{{ info }}</p>
+  			<button v-on:click="upperMessage">字母大写</button>
+		</div>
+		<!--实例6：轻松实现表单输入和应用状态之间的双向绑定-->
+		<!--使用v-model-->
+		<div id="app5">
+  			<p>{{ mess }}</p>
+  			<input v-model="mess">
+		</div>
+		<!--实例7：数据与方法-->
+		<div id='app6'>{{addr}}</div>
+		<!--实例8：文本插值-->
+		<div id='app7' v-once>
+			{{msg}}
+			<p v-html='rawHtml'></p>
+			<p>using v-html directive:<span v-html='rawHtml'></span></p>			
+		</div>
+		<!-- 实例9：动态绑定属性-->
+		<div id='app8'>
+			<p v-bind:class='color'>app8</p>
+			<a v-bind:href='url'>超链接</a> 
+			<a href="http://www.baidu.com">超链接1</a>
+			<!-- 
+				1)完整语法:
+				<a v-bind:href="url">...</a>
+				2)缩写:
+				<a :href="url">...</a>
+				动态参数的缩写 (2.6.0+):
+				<a :[key]="url"> ... </a>
+			-->
+			<!--class和style的绑定-->
+			<div class='font-size' v-bind:class='{active:isActive,green:isGreen}'>
+				class-type
+			</div>
+			<!--数组方式绑定class-->
+			<div class='font-size' v-bind:class="['active','green']">
+				class-type
+			</div>
+			<!--数组方式动态选择绑定class-->
+			<div class='font-size' v-bind:class="[isActive ?'active' :'',isGreen ? 'green' : '']">
+				class-type
+			</div>
+			<!--style绑定-->
+			<div v-bind:style="{color:stylecolor,background:isGray?'#A8A8A8':''}">
+				style-type
+			</div>
+			<div v-bind:style="styleObject">
+				style-type
+			</div>
+		</div>	
+		<!--实例10：javascript-->
+		<div id='app9'>
+			<p>{{ num +10}}</p>
+			<p>{{ status ? 'YES' : 'NO' }}</p>
+			<p>{{ str.split('').reverse().join('') }}</p>
+		</div>
+		<!--实例11：修饰符-->
+		<div id='app10'>
+			<div v-on:click="click1">
+				<div v-on:click.stop='click2'>
+					click me
+				</div>
+			</div>
+			<!-- 
+				1)完整语法:
+				<a v-on:click="doSomething">...</a>
+				2)缩写:
+				<a @click="doSomething">...</a>
+				动态参数的缩写 (2.6.0+):
+				<a @[event]="doSomething"> ... </a>
+			-->		
+		</div>
+		<!--实例12：计算属性～
+		    1）避免在模板中放入太多的逻辑会让模板过重且难以维护
+		    2）以翻转字符串为例
+		    3)与使用调用方法reversedString相比：
+		        A.计算属性是基于它们的响应式依赖进行缓存的，只在相关响应式依赖发生改变时它们才会重新求值，如果string没有发生变化，就不会再次执行函数
+		        B.每当触发重新渲染时，调用方法将总会再次执行函数
+		-->
+		<div id='app11'>
+			<p>Original str: "{{ string }}"</p>
+  			<p>Computed reversed str: "{{ reversedString }}"</p>
+		</div>
+		<!--实例13：条件渲染使用v-if或者v-show-->
+		<div id='app12'>
+			<div v-if="type === 'A'">
+  				A
+			</div>
+			<div v-else-if="type === 'B'">
+  				B
+			</div>
+			<div v-else>
+  				Not A/B
+			</div>
+			<!--
+			    v-if和v-show的区别:
+			    1)v-show 的元素始终会被渲染并保留在 DOM 中。v-show 只是简单地切换元素的 CSS 属性 display
+			    2)v-show 不支持 <template> 元素，也不支持 v-else
+			    3)v-if 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。
+			    4)v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
+			    5)当 v-if 与 v-for 一起使用时，v-for 具有比 v-if 更高的优先级,不推荐同时使用 v-if 和 v-for
+			-->
+			<div v-show='status_ok'>v-show</div>
+			
+		</div>
+		<!--实例14：列表渲染使用 
+		v-bind:key的使用是以便它能跟踪每个节点的身份，从而重用和重新排序现有元素
+		-->	
+		<!--参见实例4-->
+		<div id='app13'>
+			<ul>
+				<li v-for="item,index in items" v-bind:key='index'>
+					{{index}}-{{item.name}}
+				</li>
+			</ul>
+			<!--v-for 来遍历一个对象的属性-->
+			<ul>
+				<li v-for="value,key,index in demos" v-bind:key='index'>
+					{{index}}-{{key}}-{{value}}
+				</li>
+			</ul>
+		</div>
+		<!--实例15：事件处理-->
+		<!--参见实例5-->
+		<div id="app14">
+  			<button v-on:click="counter += 1">counter： {{counter}}</button>
+  			<button v-on:click='greet("abc",$event)'>Greet</button>
+		</div>
+		<!--实例16：表单提交-->
+		<div id='app15'>
+			<!--文本框-->
+			<input v-model="mess1" placeholder="edit me">
+			<p>Message is: {{ mess1 }}</p>
+			<!--多行文本框-->
+			<textarea v-model="mess2" placeholder="add multiple lines"></textarea>
+			<p>Multiline Message is: {{ mess2 }}</p>
+			<!--单选框-->
+			<input type="radio" id="one" value="One" v-model="picked">
+  			<label for="one">One</label>
+  			<br>
+  			<input type="radio" id="two" value="Two" v-model="picked">
+  			<label for="two">Two</label>
+  			<br>
+  			<span>Picked: {{ picked }}</span>
+  			<br>
+  			<!--复选框-->
+  			<input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+  			<label for="jack">Jack</label>
+  			<input type="checkbox" id="john" value="John" v-model="checkedNames">
+  			<label for="john">John</label>
+  			<input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+  			<label for="mike">Mike</label>
+  			<br>
+  			<span>Checked names: {{ checkedNames }}</span>
+  			<!--选择框-->
+  			<br>
+  			<select v-model="selected">
+    		<option disabled value="">请选择</option>
+    		<option>A</option>
+    		<option>B</option>
+    		<option>C</option>
+  			</select>
+  			<span>Selected: {{ selected }}</span>
+  			<!--表单提交-->
+  			<button type='button' v-on:click='submit'>submit</button>
+		</div>
+
+		<script type="text/javascript">
+			var app=new Vue({
+				el:'#app', //指定赋值元素
+				data:{age:'20',name:'wz'} //赋值元素
+			});
+			var app1=new Vue({
+				el:'#app1', //指定赋值元素
+				data:{message:'页面加载于'+new Date().toLocaleString()} //赋值元素
+			});
+			var app2 = new Vue({
+  				el: '#app2',
+  				data: {seen:false}
+			});
+			var app3= new Vue({
+				el:'#app3',
+				data:{
+					todos:[{text:'A'},{text:'B'},{text:'C'}]
+				}
+			});
+			var app4=new Vue({
+				el:'#app4',
+				data:{info:'abcde'},
+				methods:{
+					upperMessage:function(){
+						this.info=this.info.toUpperCase()
+					}
+				}
+			});
+			var app5=new Vue({
+				el:'#app5',
+				data:{mess:'ceshi-app5'}
+			});
+			var data={addr:'bj'};
+			//vm(viewmodule)是约定俗称的Vue实例名称
+			var vm=new Vue({   
+				el:'#app6',
+				data:data
+			});
+			//vue实例属性与方法
+			vm.$watch('addr',function(newValue,oldValue){
+				console.log(oldValue,newValue);
+			})
+			vm.addr='sh';
+			//等价于data.addr='sh',vm.$data.addr='sh'
+
+			var vm=new Vue({
+				el:'#app7',
+				data:{msg:'app7',rawHtml:'<span style="color:red">this is should be red</span>'}
+			});
+			vm.msg='cccc'  //v-once：数据改变内容不会发生变化
+
+			var vm=new Vue({
+				el:'#app8',
+				data:{
+				color:'red',
+				url:'http://www.baidu.com',
+				isActive:false,
+				isGreen:true,
+				stylecolor:"#FF0000",
+				isGray:true,
+				styleObject:{color:'red',background:'yellow',fontSize:'30px'}
+			}
+			});
+
+			var vm=new Vue({
+				el:'#app9',
+				data:{num:10,status:false,str:'abc'}
+			});
+			var vm=new Vue({
+				el:'#app10',
+				methods:{
+					click1:function(){
+						console.log('click1....');
+					},
+					click2:function(){
+						console.log('click2....')
+					}
+				}
+			});
+			var vm=new Vue({
+				el:'#app11',
+				data:{string:'hello'},
+				computed:{
+					reversedString:function(){
+						return this.string.split('').reverse().join('')
+					}
+				}
+			});
+
+			var vm=new Vue({
+				el:'#app12',
+				data:{type:'cccc',status_ok:true}
+			});
+ 
+ 			var vm=new Vue({
+ 				el:'#app13',
+ 				data:{
+ 					items:[{name:'wz'},{name:'yc'}],
+ 					demos:{'fristname':'wang','secondname':'zhen'}
+ 				}
+ 			});
+
+ 			var vm=new Vue({
+ 				el:'#app14',
+ 				data:{counter:0},
+ 				methods:{
+ 					greet:function(str,e){
+ 						alert(str),
+ 						console.log(e)
+ 					}
+ 				}
+ 			});
+
+ 			var vm=new Vue({
+ 				el:"#app15",
+ 				data:{
+ 					mess1:'',
+ 					mess2:'',
+ 					picked:'',
+ 					checkedNames:[],
+ 					selected:''
+ 				},
+ 				methods:{
+ 					submit:function(){
+ 						var postObj={
+ 							msg1:this.mess1,
+ 							msg2:this.mess2,
+ 							pick1:this.picked,
+ 							check1:this.checkedNames,
+ 							select1:this.selected,
+ 						};
+ 						console.log(postObj);
+ 					}					
+ 				}
+ 			});
+		</script>
+		<style>
+			.blue{color: green;font-size: 20px;}
+			.red{color: red;font-size: 10px;}
+			.font-size{font-size: 30px;}
+			.active{background-color: red;}
+			.green{color:green;}
+		</style>
+	</body>
+</html>
